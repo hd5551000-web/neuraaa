@@ -1,0 +1,344 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEURA | Autonomous Driving</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#070d17;--panel:#101b2b;--line:#24374b;
+  --cyan:#58d8ff;--text:#f1f7ff;--muted:#9aadc2;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Cairo,sans-serif}
+button{font-family:inherit;cursor:pointer}
+.presentation{height:100svh;min-height:650px;display:flex;flex-direction:column;overflow:hidden}
+header{height:70px;flex-shrink:0;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 4%;gap:16px}
+.logo{font-size:23px;font-weight:800;letter-spacing:2px;color:var(--cyan)}
+.logo span{color:white}
+.header-label{font-size:12px;color:var(--muted)}
+.progress{height:3px;background:#182437;flex-shrink:0}
+.progress div{height:100%;width:25%;background:var(--cyan);transition:width .3s}
+main{width:100%;max-width:1500px;margin:auto;padding:22px 4%;flex:1;min-height:0}
+.slide{display:none;height:100%;animation:fade .35s ease}
+.slide.active{display:flex;flex-direction:column}
+@keyframes fade{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+.eyebrow{font-size:11px;color:var(--cyan);letter-spacing:2px;font-weight:700}
+h1{font-size:clamp(32px,4.1vw,61px);line-height:1.3;margin:12px 0}
+h2{font-size:clamp(25px,3vw,40px);line-height:1.4;margin:8px 0}
+p{color:var(--muted);line-height:1.9;font-size:13px}
+.accent{color:var(--cyan)}
+.hero-grid{display:grid;grid-template-columns:1fr 1.15fr;align-items:center;gap:25px;flex:1;min-height:0}
+.hero-copy{max-width:520px}
+.hero-copy p{font-size:14px;max-width:460px}
+.pill{display:inline-block;padding:5px 12px;border:1px solid #25465e;border-radius:30px;color:var(--cyan);font-size:11px;margin-top:10px}
+.visual{position:relative;min-height:340px;height:100%;max-height:490px;display:grid;place-items:center;border:1px solid var(--line);border-radius:20px;overflow:hidden;background:radial-gradient(ellipse at 50% 50%,#173852 0%,#0b1727 48%,#080e18 80%)}
+.gridbg{position:absolute;inset:0;background-image:linear-gradient(#5ad8ff0a 1px,transparent 1px),linear-gradient(90deg,#5ad8ff0a 1px,transparent 1px);background-size:30px 30px}
+.car{position:relative;width:95%;max-width:570px;z-index:2;filter:drop-shadow(0 20px 25px #0009)}
+.car img{width:100%;display:block}
+.car svg{width:100%;display:block}
+.callout{position:absolute;z-index:3;background:#091522eF;border:1px solid #3c718e;border-radius:9px;padding:7px 10px;font-size:11px;color:var(--cyan);box-shadow:0 0 18px #48c8ff12}
+.c1{top:12%;right:6%}.c2{top:18%;left:5%}.c3{bottom:15%;right:7%}
+.callout small{display:block;color:#c3d4e5;font-size:9px}
+.bottom-note{position:absolute;bottom:10px;left:12px;font-size:9px;color:#7f95ab}
+.stats{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.stat{border-right:2px solid var(--cyan);padding:0 12px}
+.stat strong{display:block;font-size:20px;color:var(--cyan)}
+.stat span{font-size:10px;color:var(--muted)}
+.slide-heading{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:20px}
+.slide-heading p{max-width:480px;margin:0}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1;min-height:0}
+.card{background:linear-gradient(145deg,#132237,#0c1421);border:1px solid var(--line);border-radius:14px;padding:20px;display:flex;flex-direction:column;justify-content:center}
+.card .num{font-size:12px;color:var(--cyan);letter-spacing:2px}
+.card .symbol{font-size:32px;margin:10px 0}
+.card h3{margin:0;font-size:17px}
+.card p{font-size:12px}
+.diagram-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px;flex:1;min-height:0}
+.sensor-buttons{display:grid;gap:10px;align-content:center}
+.sensor{background:#101b2b;border:1px solid var(--line);border-radius:11px;padding:12px 15px;text-align:right;color:var(--text);display:flex;gap:13px;align-items:center}
+.sensor.active,.sensor:hover{border-color:var(--cyan);background:#142a3b}
+.sensor .icon{font-size:23px;color:var(--cyan)}
+.sensor strong{font-size:13px}
+.sensor small{display:block;color:var(--muted);font-size:10px;margin-top:3px}
+.sensor-info{padding:16px;background:#0b1725;border:1px solid var(--line);border-radius:12px;margin-top:10px;font-size:12px;color:var(--muted);line-height:1.8}
+.levels{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:15px}
+.level{border:1px solid var(--line);background:#101b2b;border-radius:12px;padding:13px}
+.level strong{font-size:23px;color:var(--cyan)}
+.level h3{font-size:12px;margin:3px 0}
+.level p{font-size:10px;margin:4px 0}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+.year{border-top:2px solid var(--cyan);background:#101b2b;border-radius:0 0 12px 12px;padding:16px}
+.year strong{font-size:24px;color:var(--cyan)}
+.year h3{font-size:13px;margin:5px 0}
+.year p{font-size:11px}
+.disclaimer{font-size:10px;margin-top:12px}
+.future-bottom{display:flex;gap:15px;align-items:center;margin-top:17px;padding:13px 17px;border:1px solid var(--line);border-radius:12px;background:#0d1927}
+.future-bottom strong{color:var(--cyan);font-size:12px;white-space:nowrap}
+.future-bottom p{margin:0;font-size:11px}
+footer{height:65px;flex-shrink:0;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;padding:0 4%;gap:12px}
+.controls{display:flex;align-items:center;gap:10px}
+.controls button{border:1px solid var(--line);background:#101b2b;color:var(--text);border-radius:8px;padding:8px 15px}
+.controls button:hover{border-color:var(--cyan)}
+#counter{font-size:11px;color:var(--muted);min-width:42px;text-align:center}
+.footer-copy{font-size:10px;color:var(--muted)}
+@media(max-width:750px){
+ .presentation{height:auto;min-height:100svh;overflow:visible}
+ header{height:60px}
+ main{padding:18px 4%;flex:none}
+ .slide{height:auto;min-height:calc(100svh - 145px)}
+ .hero-grid,.diagram-layout{grid-template-columns:1fr}
+ .hero-grid{gap:10px}
+ .visual{height:310px;min-height:310px}
+ .hero-copy{padding:10px 0}
+ .hero-copy p{margin:8px 0}
+ .stats{margin-top:12px}
+ .cards{grid-template-columns:1fr;gap:9px}
+ .card{padding:14px}
+ .card .symbol{margin:4px 0;font-size:23px}
+ .card p{margin:4px 0}
+ .slide-heading{display:block}
+ .levels{grid-template-columns:repeat(2,1fr)}
+ .timeline{grid-template-columns:repeat(2,1fr)}
+ .future-bottom{align-items:flex-start;flex-direction:column}
+ footer{height:auto;min-height:65px;padding:12px 4%;flex-wrap:wrap}
+}
+@media(max-height:720px) and (min-width:751px){
+ main{padding-top:12px;padding-bottom:12px}
+ .visual{max-height:380px}
+ .card{padding:14px}
+ .card .symbol{margin:4px 0}
+ .card p{line-height:1.65}
+}
+</style>
+</head>
+<body>
+<div class="presentation">
+<header>
+  <div class="logo">NEURA<span>.</span></div>
+  <div class="header-label">AUTONOMOUS DRIVING / القيادة الذاتية</div>
+  <div class="eyebrow">TECHNOLOGY 2030+</div>
+</header>
+<div class="progress"><div id="bar"></div></div>
+
+<main>
+<!-- SLIDE 1 -->
+<section class="slide active">
+ <div class="hero-grid">
+  <div class="hero-copy">
+   <div class="eyebrow">01 — THE NEXT REVOLUTION</div>
+   <h1>المستقبل لا يحتاج<br>إلى <span class="accent">مقود؟</span></h1>
+   <p>تخيّل سيارة ترى الطريق، وتفهم حركة المرور، وتتخذ قرارات القيادة باستخدام الذكاء الاصطناعي. هذه هي فكرة القيادة الذاتية — واحدة من أهم تحولات عالم النقل.</p>
+   <span class="pill">من الإنسان إلى الأنظمة الذكية</span>
+   <div class="stats">
+    <div class="stat"><strong>AI</strong><span>ذكاء اصطناعي</span></div>
+    <div class="stat"><strong>360°</strong><span>إدراك محيطي</span></div>
+    <div class="stat"><strong>∞</strong><span>فرص للتطوير</span></div>
+   </div>
+  </div>
+  <div class="visual">
+   <div class="gridbg"></div>
+   <div class="callout c1">LiDAR<small>رسم خريطة ثلاثية الأبعاد</small></div>
+   <div class="callout c2">AI CAMERA<small>رؤية الطريق والتعرف على الأجسام</small></div>
+   <div class="callout c3">RADAR<small>قياس المسافة والسرعة النسبية</small></div>
+   <div class="car">
+    <!-- رسم سيارة ذاتية القيادة بأسلوب ثلاثي الأبعاد -->
+    <svg viewBox="0 0 600 390" role="img" aria-label="رسم سيارة ذاتية القيادة مع حساسات">
+     <defs>
+      <linearGradient id="paint" x1="0" y1="0" x2="1" y2="1">
+       <stop stop-color="#d5f8ff"/><stop offset=".25" stop-color="#56c9f4"/>
+       <stop offset=".58" stop-color="#17658f"/><stop offset="1" stop-color="#071b32"/>
+      </linearGradient>
+      <linearGradient id="window" x1="0" y1="0" x2="0.9" y2="1">
+       <stop stop-color="#8de8ff"/><stop offset=".35" stop-color="#173f60"/><stop offset="1" stop-color="#07111f"/>
+      </linearGradient>
+      <linearGradient id="shadow" x1="0" y1="0" x2="0" y2="1">
+       <stop stop-color="#1d2e40"/><stop offset="1" stop-color="#02060b"/>
+      </linearGradient>
+      <filter id="light"><feGaussianBlur stdDeviation="5"/></filter>
+     </defs>
+     <ellipse cx="300" cy="323" rx="235" ry="28" fill="#000" opacity=".55"/>
+     <ellipse cx="300" cy="318" rx="180" ry="13" fill="#48c8ff" opacity=".18" filter="url(#light)"/>
+     <!-- wheels -->
+     <path d="M113 239 L105 286 Q108 311 139 315 L173 305 L185 245Z" fill="url(#shadow)" stroke="#496d87" stroke-width="3"/>
+     <path d="M427 245 L439 305 L469 315 Q495 308 495 286 L487 239Z" fill="url(#shadow)" stroke="#496d87" stroke-width="3"/>
+     <!-- body -->
+     <path d="M76 236 Q83 204 126 184 L193 151 Q220 110 259 103 L357 103 Q397 115 430 167 L480 194 Q510 207 520 241 L508 278 Q499 293 472 294 L125 294 Q93 291 82 274Z" fill="url(#paint)" stroke="#9ceaff" stroke-width="2"/>
+     <!-- roof/cabin -->
+     <path d="M174 177 L214 123 Q229 111 260 111 L350 111 Q381 119 411 173Z" fill="url(#window)" stroke="#9ceaff" stroke-width="2"/>
+     <path d="M294 113 L296 172" stroke="#91dff6" stroke-width="2" opacity=".55"/>
+     <path d="M213 123 L252 174" stroke="#9ceaff" stroke-width="1.5" opacity=".5"/>
+     <!-- side glass -->
+     <path d="M173 181 L413 181" stroke="#8ce8ff" stroke-width="2"/>
+     <path d="M300 183 L300 220" stroke="#193b56" stroke-width="3"/>
+     <!-- door lines -->
+     <path d="M190 186 L179 269 M420 188 L438 267" stroke="#8ce8ff" stroke-width="1.5" opacity=".65"/>
+     <path d="M213 229 L240 229 M362 229 L388 229" stroke="#d7f8ff" stroke-width="3" stroke-linecap="round"/>
+     <!-- headlights -->
+     <path d="M89 237 L139 230 L127 247 L91 255Z" fill="#efffff"/>
+     <path d="M89 237 L139 230 L127 247 L91 255Z" fill="#b9f2ff" filter="url(#light)"/>
+     <path d="M468 230 L506 241 L507 255 L479 250Z" fill="#c7f4ff"/>
+     <!-- lower grille -->
+     <path d="M229 272 Q300 284 371 272 L361 287 L239 287Z" fill="#071523" stroke="#3c91b7"/>
+     <path d="M250 278 L350 278" stroke="#5ad8ff" stroke-width="2"/>
+     <!-- LiDAR sensor -->
+     <rect x="282" y="94" width="32" height="10" rx="4" fill="#061421" stroke="#83e7ff" stroke-width="2"/>
+     <circle cx="298" cy="94" r="7" fill="#5ad8ff"/>
+     <circle cx="298" cy="94" r="15" fill="none" stroke="#5ad8ff" opacity=".55"/>
+     <!-- sensor waves -->
+     <path d="M298 80 Q270 55 240 73 M298 80 Q325 53 355 73" fill="none" stroke="#5ad8ff" stroke-width="1.5" stroke-dasharray="5 5"/>
+     <!-- radar -->
+     <circle cx="300" cy="278" r="6" fill="#a7f1ff" stroke="#fff"/>
+     <path d="M300 290 L300 330 M280 312 Q300 292 320 312 M267 322 Q300 289 333 322" fill="none" stroke="#5ad8ff" stroke-width="1.5" opacity=".8"/>
+     <!-- road scan dots -->
+     <g fill="#5ad8ff">
+      <circle cx="115" cy="155" r="2"/><circle cx="140" cy="133" r="2"/>
+      <circle cx="454" cy="130" r="2"/><circle cx="480" cy="151" r="2"/>
+      <circle cx="90" cy="182" r="2"/><circle cx="510" cy="178" r="2"/>
+     </g>
+    </svg>
+   </div>
+   <div class="bottom-note">CONCEPTUAL VEHICLE VISUALIZATION • NOT A REAL PRODUCT</div>
+  </div>
+ </div>
+</section>
+
+<!-- SLIDE 2 -->
+<section class="slide">
+ <div class="slide-heading">
+  <div><div class="eyebrow">02 — HOW IT WORKS</div><h2>كيف تفكر <span class="accent">السيارة؟</span></h2></div>
+  <p>السيارة لا ترى الطريق مثل الإنسان فقط؛ بل تجمع بيانات متعددة وتحولها إلى قرارات.</p>
+ </div>
+ <div class="diagram-layout">
+  <div class="visual">
+   <div class="gridbg"></div>
+   <div class="car">
+    <svg viewBox="0 0 600 390" role="img" aria-label="سيارة مع توضيح الحساسات">
+     <defs>
+      <linearGradient id="paint2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#c4f3ff"/><stop offset=".45" stop-color="#278bb7"/><stop offset="1" stop-color="#0b223d"/></linearGradient>
+     </defs>
+     <ellipse cx="300" cy="320" rx="210" ry="25" fill="#0007"/>
+     <path d="M85 245 L125 190 L206 160 L245 112 L365 112 L414 171 L480 198 L515 250 L490 292 L110 292Z" fill="url(#paint2)" stroke="#9ceaff" stroke-width="3"/>
+     <path d="M190 177 L230 124 L360 124 L405 177Z" fill="#071a2c" stroke="#8ce8ff" stroke-width="2"/>
+     <path d="M300 124 L300 177" stroke="#8ce8ff" opacity=".7"/>
+     <path d="M95 245 L145 235 L130 255 L97 261Z M470 235 L507 246 L505 261 L480 254Z" fill="#e4fbff"/>
+     <path d="M230 274 L370 274 L358 286 L242 286Z" fill="#06121f"/>
+     <rect x="283" y="102" width="34" height="12" rx="4" fill="#58d8ff"/>
+     <circle cx="300" cy="109" r="18" fill="none" stroke="#58d8ff" stroke-dasharray="4 4"/>
+     <circle cx="300" cy="277" r="7" fill="#58d8ff"/>
+     <path d="M300 109 L470 54 M300 109 L125 54 M300 277 L480 335" fill="none" stroke="#58d8ff" stroke-width="2" stroke-dasharray="5 5"/>
+     <circle cx="470" cy="54" r="5" fill="#58d8ff"/><circle cx="125" cy="54" r="5" fill="#58d8ff"/><circle cx="480" cy="335" r="5" fill="#58d8ff"/>
+     <text x="465" y="42" fill="#8ce8ff" font-size="15" text-anchor="middle">LiDAR</text>
+     <text x="125" y="42" fill="#8ce8ff" font-size="15" text-anchor="middle">CAMERA</text>
+     <text x="480" y="360" fill="#8ce8ff" font-size="15" text-anchor="middle">RADAR</text>
+    </svg>
+   </div>
+  </div>
+  <div class="sensor-buttons">
+   <button class="sensor active" data-title="LiDAR" data-description="يرسل نبضات ليزر ويقيس انعكاسها لبناء تصور ثلاثي الأبعاد للمحيط وتقدير المسافات.">
+    <span class="icon">⌁</span><span><strong>01 — LiDAR</strong><small>الاستشعار ثلاثي الأبعاد</small></span>
+   </button>
+   <button class="sensor" data-title="الكاميرات" data-description="تحلل الصور للتعرف على إشارات المرور وخطوط المسارات والمشاة والأجسام المرئية.">
+    <span class="icon">◎</span><span><strong>02 — الكاميرات</strong><small>رؤية وفهم الطريق</small></span>
+   </button>
+   <button class="sensor" data-title="الرادار" data-description="يساعد في قياس المسافة والسرعة النسبية للأجسام، ويكمل معلومات بقية الحساسات.">
+    <span class="icon">⌖</span><span><strong>03 — الرادار</strong><small>المسافة والسرعة النسبية</small></span>
+   </button>
+   <button class="sensor" data-title="الذكاء الاصطناعي" data-description="يدمج المعلومات ويقدر المواقف المحتملة ويخطط للمسار ويتحكم في السيارة وفق حدود النظام.">
+    <span class="icon">✳</span><span><strong>04 — الذكاء الاصطناعي</strong><small>تحليل البيانات واتخاذ القرار</small></span>
+   </button>
+   <div class="sensor-info" id="sensorInfo">الليدار: يرسل نبضات ليزر ويقيس انعكاسها لبناء تصور ثلاثي الأبعاد للمحيط وتقدير المسافات.</div>
+  </div>
+ </div>
+</section>
+
+<!-- SLIDE 3 -->
+<section class="slide">
+ <div class="slide-heading">
+  <div><div class="eyebrow">03 — AUTOMATION LEVELS</div><h2>إلى أي مدى يمكنها <span class="accent">القيادة وحدها؟</span></h2></div>
+  <p>الأتمتة درجات؛ وجود نظام مساعدة لا يعني أن السيارة تستطيع القيادة دون إشراف بشري.</p>
+ </div>
+ <div class="levels">
+  <div class="level"><strong>0</strong><h3>قيادة بشرية</h3><p>الإنسان يقوم بمهمة القيادة.</p></div>
+  <div class="level"><strong>1</strong><h3>مساعدة</h3><p>النظام يساعد في التوجيه أو السرعة.</p></div>
+  <div class="level"><strong>2</strong><h3>مساعدة متقدمة</h3><p>توجيه وسرعة معًا، مع مراقبة السائق.</p></div>
+  <div class="level"><strong>3</strong><h3>أتمتة مشروطة</h3><p>النظام يقود في ظروف محددة، وقد يطلب التدخل.</p></div>
+  <div class="level"><strong>4–5</strong><h3>أتمتة عالية / كاملة</h3><p>المستوى 4 ضمن نطاق محدد؛ والمستوى 5 يستهدف جميع ظروف القيادة التي يمكن للإنسان التعامل معها.</p></div>
+ </div>
+ <div class="visual" style="margin-top:20px;min-height:190px;flex:1">
+  <div class="gridbg"></div>
+  <div style="position:relative;z-index:1;text-align:center;padding:20px">
+   <div class="eyebrow">THE BIG IDEA</div>
+   <h2>الهدف ليس سيارة <span class="accent">أسرع فقط</span></h2>
+   <p>بل نظام يفهم محيطه، ويعرف حدود قدراته، ويتخذ قرارات آمنة.</p>
+  </div>
+ </div>
+ <p class="disclaimer">التصنيف مبني على مستويات الأتمتة المعروفة من SAE. لا يعني المستوى الأعلى أن كل سيارة متاحة حاليًا قادرة على العمل في كل الظروف.</p>
+</section>
+
+<!-- SLIDE 4 -->
+<section class="slide">
+ <div class="slide-heading">
+  <div><div class="eyebrow">04 — THE FUTURE</div><h2>شكل القيادة في <span class="accent">2030–2050</span></h2></div>
+  <p>سيناريوهات محتملة لتطور التكنولوجيا، وليست مواعيد مؤكدة لوصول القيادة الذاتية الكاملة.</p>
+ </div>
+ <div class="timeline">
+  <div class="year"><strong>2026</strong><h3>مساعدات أكثر تطورًا</h3><p>توسع تدريجي في الأنظمة المساعدة وخدمات آلية في مناطق محددة.</p></div>
+  <div class="year"><strong>2030</strong><h3>خدمات أوسع</h3><p>احتمال انتشار أكبر لسيارات الأجرة والتوصيل ذاتية القيادة في مناطق مجهزة.</p></div>
+  <div class="year"><strong>2040</strong><h3>مدن مترابطة</h3><p>قد تتكامل المركبات مع البنية التحتية وأنظمة النقل الذكية بصورة أكبر.</p></div>
+  <div class="year"><strong>2050</strong><h3>تنقل آلي متقدم</h3><p>قد تتوسع القيادة الآلية في بيئات أكثر، مع بقاء تحديات الطقس والقوانين والأمان.</p></div>
+ </div>
+ <div class="future-bottom">
+  <strong>ما الذي سيحدد المستقبل؟</strong>
+  <p>سلامة الأنظمة، تكلفة التقنية، التشريعات، جودة الطرق، الأمن السيبراني، وثقة الناس. لا يمكن ضمان موعد محدد للقيادة الذاتية الكاملة.</p>
+ </div>
+ <div class="visual" style="margin-top:18px;min-height:180px;flex:1">
+  <div class="gridbg"></div>
+  <div style="position:relative;z-index:1;text-align:center;padding:15px">
+   <div class="eyebrow">THE ROAD AHEAD</div>
+   <h2>من مجرد سيارة إلى <span class="accent">منظومة ذكية</span></h2>
+   <p>مستقبل النقل يعتمد على التعاون بين الذكاء الاصطناعي والهندسة والإنسان.</p>
+  </div>
+ </div>
+</section>
+</main>
+
+<footer>
+ <div class="footer-copy">NEURA. | عرض تعريفي عن القيادة الذاتية</div>
+ <div class="controls">
+  <button id="prev" aria-label="الشريحة السابقة">→ السابق</button>
+  <span id="counter">01 / 04</span>
+  <button id="next" aria-label="الشريحة التالية">التالي ←</button>
+ </div>
+ <div class="footer-copy">استخدمي الأسهم ← → للتنقل</div>
+</footer>
+</div>
+<script>
+const slides=[...document.querySelectorAll('.slide')];
+let current=0;
+function showSlide(index){
+ current=(index+slides.length)%slides.length;
+ slides.forEach((slide,i)=>slide.classList.toggle('active',i===current));
+ document.getElementById('counter').textContent=
+  String(current+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');
+ document.getElementById('bar').style.width=((current+1)/slides.length*100)+'%';
+}
+document.getElementById('next').addEventListener('click',()=>showSlide(current+1));
+document.getElementById('prev').addEventListener('click',()=>showSlide(current-1));
+document.addEventListener('keydown',e=>{
+ if(e.key==='ArrowLeft')showSlide(current+1);
+ if(e.key==='ArrowRight')showSlide(current-1);
+});
+document.querySelectorAll('.sensor').forEach(button=>{
+ button.addEventListener('click',()=>{
+  document.querySelectorAll('.sensor').forEach(b=>b.classList.remove('active'));
+  button.classList.add('active');
+  document.getElementById('sensorInfo').textContent=
+   button.dataset.title+' — '+button.dataset.description;
+ });
+});
+showSlide(0);
+</script>
+</body>
+</html>
